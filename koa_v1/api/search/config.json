@@ -1,0 +1,8 @@
+{
+  "name": "search",
+  "description": "searches indexers for results",
+  "routes": {
+    "GET /search/tv/:name": "tv",
+    "GET /search/movie/:name": "movie"
+  }
+}

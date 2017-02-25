@@ -1,0 +1,29 @@
+{
+  "name": "timpotato",
+  "version": "0.0.1",
+  "description": "My attempt at making a couch poato like application",
+  "keywords": [],
+  "dependencies": {
+    "co-body": "0.0.1",
+    "commander": "~2.2.0",
+    "debug": "*",
+    "koa": "~0.6.1",
+    "koa-compress": "1.0.7",
+    "koa-logger": "~1.2.1",
+    "koa-ratelimit": "~1.0.3",
+    "koa-request": "^1.0.0",
+    "koa-resource-router": "^0.3.3",
+    "koa-response-time": "~1.0.2",
+    "koa-router": "~3.1.4",
+    "redis": "~0.10.3"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "should": "*",
+    "supertest": "~0.8.2"
+  },
+  "scripts": {
+    "test" : "mocha"
+  },
+  "license": "MIT"
+}

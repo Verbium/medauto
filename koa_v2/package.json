@@ -1,0 +1,34 @@
+{
+  "dependencies": {
+    "koa": "^2.0.0-alpha.3",
+    "koa-router": "^7.0.1",
+    "node-tvdb": "^3.0.1"
+  },
+  "description": "Minimal koa v2 boilerplate.",
+  "devDependencies": {
+    "babel-preset-es2015-node5": "^1.1.2",
+    "babel-preset-stage-0": "^6.3.13",
+    "babel-register": "^6.4.3",
+    "mocha": "^2.3.4",
+    "nodemon": "^1.8.1",
+    "should": "^8.2.0",
+    "supertest": "^1.1.0"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "main": "index.js",
+  "maintainers": [
+    {
+      "name": "Verbium",
+      "email": "verbium.timpayton@gmail.com"
+    }
+  ],
+  "name": "timpoatato",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "scripts": {
+    "start": "nodemon",
+    "test": "mocha -u tdd -R spec --compilers js:babel-core/register"
+  },
+  "version": "0.0.1"
+}
