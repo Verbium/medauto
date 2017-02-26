@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './tv.css';
+import './showdisplay.css';
 import {fetchShow} from '../actions';
 import fetch from 'isomorphic-fetch';
 

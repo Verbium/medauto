@@ -22,11 +22,10 @@ function requestShow(show) {
 }
 
 function receiveShow(show, json) {
-    //TODO - child.data needs to be changed to match json structure from tvdb
     return {
         type: RECEIVE_SHOWS,
         show,
-        posts: json.data.children.map(child => child.data),
+        shows: json,
         receivedAt: Date.now()
     }
 }
