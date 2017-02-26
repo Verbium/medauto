@@ -3,65 +3,39 @@
  */
 import fetch from 'isomorphic-fetch';
 
-export const REQUEST_POSTS = 'REQUEST_POSTS';
-export const RECEIVE_POSTS = 'RECEIVE_POSTS';
-export const SELECT_SUBREDDIT = 'SELECT_SUBREDDIT';
-export const INVALIDATE_SUBREDDIT = 'INVALIDATE_SUBREDDIT';
+export const REQUEST_SHOWS = 'REQUEST_SHOWS';
+export const RECEIVE_SHOWS = 'RECEIVE_SHOWS';
+export const INVALIDATE_SHOWS = 'INVALIDATE_SHOWS';
 
-export function selectSubreddit(subreddit) {
+export function invalidateShow(show) {
     return {
-        type: SELECT_SUBREDDIT,
-        subreddit
+        type: INVALIDATE_SHOWS,
+        show
     }
 }
 
-export function invalidateSubreddit(subreddit) {
+function requestShow(show) {
     return {
-        type: INVALIDATE_SUBREDDIT,
-        subreddit
+        type: REQUEST_SHOWS,
+        show
     }
 }
 
-function requestPosts(subreddit) {
+function receiveShow(show, json) {
+    //TODO - child.data needs to be changed to match json structure from tvdb
     return {
-        type: REQUEST_POSTS,
-        subreddit
-    }
-}
-
-function receivePosts(subreddit, json) {
-    return {
-        type: RECEIVE_POSTS,
-        subreddit,
+        type: RECEIVE_SHOWS,
+        show,
         posts: json.data.children.map(child => child.data),
         receivedAt: Date.now()
     }
 }
 
-function fetchPosts(show) {
+export function fetchShow(show) {
     return dispatch => {
-        dispatch(requestPosts(show));
+        dispatch(requestShow(show));
         return fetch(`http://localhost:4000/tv/search/${show}`)
             .then(response => response.json())
-            .then(json => dispatch(receivePosts(show, json)));
-    }
-}
-
-function shouldFetchPosts(state, show) {
-    const posts = state.postsBySubreddit[show];
-    if (!posts) {
-        return true;
-    } else if (posts.isFetching) {
-        return false;
-    } else {
-        return posts.didInvalidate;
-    }
-}
-
-export function fetchPostsIfNeeded(subreddit) {
-    return (dispatch, getState) => {
-        if (shouldFetchPosts(getState(), subreddit)) {
-            return dispatch(fetchPosts(subreddit));
-        }
+            .then(json => dispatch(receiveShow(show, json)));
     }
 }

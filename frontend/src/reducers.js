@@ -3,30 +3,30 @@
  */
 import { combineReducers } from 'redux';
 import {
-    INVALIDATE_SUBREDDIT,
-    REQUEST_POSTS, RECEIVE_POSTS
+    INVALIDATE_SHOWS,
+    REQUEST_SHOWS, RECEIVE_SHOWS
 } from './actions';
 
-function posts(state = {
+function shows(state = {
     isFetching: false,
     didInvalidate: false,
     items: []
 }, action) {
     switch (action.type) {
-        case INVALIDATE_SUBREDDIT:
+        case INVALIDATE_SHOWS:
             return Object.assign({}, state, {
                 didInvalidate: true
             });
-        case REQUEST_POSTS:
+        case REQUEST_SHOWS:
             return Object.assign({}, state, {
                 isFetching: true,
                 didInvalidate: false
             });
-        case RECEIVE_POSTS:
+        case RECEIVE_SHOWS:
             return Object.assign({}, state, {
                 isFetching: false,
                 didInvalidate: false,
-                items: action.posts,
+                items: action.shows,
                 lastUpdated: action.receivedAt
             });
         default:
@@ -36,11 +36,11 @@ function posts(state = {
 
 function retrieveShows(state = { }, action) {
     switch (action.type) {
-        case INVALIDATE_SUBREDDIT:
-        case RECEIVE_POSTS:
-        case REQUEST_POSTS:
+        case INVALIDATE_SHOWS:
+        case RECEIVE_SHOWS:
+        case REQUEST_SHOWS:
             return Object.assign({}, state, {
-                [action.subreddit]: posts(state[action.subreddit], action)
+                [action.show]: shows(state[action.show], action)
             });
         default:
             return state;

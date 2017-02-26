@@ -1,7 +1,8 @@
 import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {TVShowList} from './App';
+import {TVShowList} from './components/tv';
+import {TVSearch} from './components/tvsearch';
 import './index.css';
 
 import { Provider } from 'react-redux';
@@ -11,7 +12,8 @@ const store = configureStore();
 
 ReactDOM.render(
     <Provider store={store}>
-        <TVShowList />
+        <TVSearch/>
+{/*        <TVShowList />*/}
     </Provider>,
   document.getElementById('root')
 );
