@@ -10,23 +10,37 @@ export const INVALIDATE_SHOWS = 'INVALIDATE_SHOWS';
 export function invalidateShow(show) {
     return {
         type: INVALIDATE_SHOWS,
-        show
+        search: show,
+        shows:{
+            didInvalidate: true,
+            isFetching : false,
+            items:[]
+        }
     }
 }
 
 function requestShow(show) {
     return {
         type: REQUEST_SHOWS,
-        show
+        search: show,
+        shows:{
+            didInvalidate: false,
+            isFetching : true,
+            items:[]
+        }
     }
 }
 
 function receiveShow(show, json) {
     return {
         type: RECEIVE_SHOWS,
-        show,
-        shows: json,
-        receivedAt: Date.now()
+        search: show,
+        receivedAt: Date.now(),
+        shows:{
+            didInvalidate: false,
+            isFetching : false,
+            items:json
+        }
     }
 }
 

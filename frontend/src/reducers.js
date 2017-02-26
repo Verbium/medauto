@@ -9,24 +9,25 @@ import {
 
 function shows(state = {
     isFetching: false,
-    didInvalidate: false,
-    items: []
+    didInvalidate: false
 }, action) {
     switch (action.type) {
         case INVALIDATE_SHOWS:
             return Object.assign({}, state, {
-                didInvalidate: true
+                didInvalidate: true,
+                shows: action.shows
             });
         case REQUEST_SHOWS:
             return Object.assign({}, state, {
                 isFetching: true,
-                didInvalidate: false
+                didInvalidate: false,
+                shows: action.shows
             });
         case RECEIVE_SHOWS:
             return Object.assign({}, state, {
                 isFetching: false,
                 didInvalidate: false,
-                items: action.shows,
+                shows: action.shows,
                 lastUpdated: action.receivedAt
             });
         default:
@@ -39,9 +40,7 @@ function retrieveShows(state = { }, action) {
         case INVALIDATE_SHOWS:
         case RECEIVE_SHOWS:
         case REQUEST_SHOWS:
-            return Object.assign({}, state, {
-                [action.show]: shows(state[action.show], action)
-            });
+            return shows(state[action.show], action);
         default:
             return state;
     }
