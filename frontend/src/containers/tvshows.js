@@ -12,7 +12,7 @@ class TVApp extends Component {
         return (
             <div>
             <TVSearch onClick={this.props.onSearchClick}/>
-            <TVShowList shows={this.props.shows}/>
+            <TVShowList shows={this.props.shows} fetching={this.props.fetching}/>
             </div>
         )
     }
@@ -20,7 +20,8 @@ class TVApp extends Component {
 
 const mapStateToProps = (state) => {
     return ({
-        shows: (state.retrieveShows.shows) ? state.retrieveShows.shows : {}
+        shows: (state.retrieveShows.shows) ? state.retrieveShows.shows : {},
+        fetching: state.retrieveShows.isFetching
     });
 };
 

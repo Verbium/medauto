@@ -3,7 +3,9 @@
     <package-json value="$PROJECT_DIR$/koa_v2/package.json" />
     <command value="start" />
     <node-interpreter value="project" />
-    <envs />
+    <envs>
+      <env name="TVDBAPIKEY" value="1805276D5EACE9CD" />
+    </envs>
     <method />
   </configuration>
 </component>

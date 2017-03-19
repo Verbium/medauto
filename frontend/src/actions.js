@@ -47,7 +47,7 @@ function receiveShow(show, json) {
 export function fetchShow(show) {
     return dispatch => {
         dispatch(requestShow(show));
-        return fetch(`http://localhost:4000/tv/search/${show}`)
+        return fetch(`http://192.168.1.82:4000/tv/search/${show}`)
             .then(response => response.json())
             .then(json => dispatch(receiveShow(show, json)));
     }
