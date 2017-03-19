@@ -1,4 +1,6 @@
 import TVDB from 'node-tvdb';
+import fetch from 'isomorphic-fetch';
+const promisePipe = require("promisepipe");
 
 const tvdb = new TVDB(process.env.TVDBAPIKEY);
 const fs = require('fs');
@@ -19,70 +21,40 @@ export default search => {
         ctx.set("Access-Control-Allow-Origin", "*");
         ctx.set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         await next();
-        ctx.body = (ctx.tvshow) ? ctx.tvshow : "No Show Found";
-    });
-
-    /**
-     * Lets check if the tv show exists
-     */
-    search.use(async(ctx, next) => {
-        let value = tvshows.filter(function (obj) {
-            return obj.name === ctx.params.name;
-        })[0];
-        if (!value) {
-            await next();
-        } else {
-            //we need to tell the user this show has already been added
-            //TODO - this just returns the show for now
-            /*        ctx.tvshow = value;*/
-        }
     });
 
     /**
      * It doesn't! Let's see if it exists on some tv indexer sites
      */
     search.use(async(ctx, next) => {
-        await tvdb.getSeriesByName(ctx.params.name)
+         await tvdb.getSeriesByName(ctx.params.name)
             .then(response => {
                 console.log(response);
                 ctx.tvshow = response;
-                next();
             })
             .catch(error => { /* handle error */
             });
+         await next();
     });
-
-    function get(show){
-        return new Promise((resolve, reject) => {
-            https.get("https://www.thetvdb.com/banners/" + show.banner, function (response) {
-                resolve(response);
-            });
-        });
-    }
-
-    function saveImage(show,response){
-        "use strict";
-        return new Promise((resolve, reject) => {
-            let file = fs.createWriteStream('images/' + show.banner);
-            response.pipe(file);
-            response.on('finish', function () {
-                resolve();
-            });
-            https.get("https://www.thetvdb.com/banners/" + show.banner, function (response) {
-                resolve(response);
-            });
-        });
-    }
 
     search.use(async(ctx, next) => {
         await ctx.tvshow.map(show => {
             if (show.banner) {
-                let file = fs.createWriteStream('images/' + show.banner);
-                get(show).then(response => {
-                    saveImage(show,response);
-                })
+                https.get("https://www.thetvdb.com/banners/" + show.banner, function (response) {
+                    promisePipe(
+                        response.pipe(fs.createWriteStream('images/' + show.banner)),
+                    ).then(function(streams){
+                        console.log("Yay, all streams are now closed/ended/finished!");
+                    }, function(err) {
+                        console.log("This stream failed:", err.source);
+                        console.log("Original error was:", err.originalError);
+                    });
+                });
             }
         });
+        console.log('about to send body');
+        ctx.body = (ctx.tvshow) ? ctx.tvshow : "No Show Found";
     });
+
     return search;
 }
