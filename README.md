@@ -2,7 +2,7 @@
 
 ### What is Medauto? ###
 
-Medauto end goal is to replicate CouchPotato / Radarr / Sonarr as a a tv and movie indexer for local storage. A user will be able to do the following:
+Medauto's end goal is to replicate CouchPotato / Radarr / Sonarr as a a tv and movie indexer for local storage. A user will be able to do the following:
 
 * Search for tv shows and movies and add them to a watch list
 * Select TV shows and view details such as descriptions, fanart, episode listings.
