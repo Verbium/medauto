@@ -7,10 +7,6 @@ const fs = require('fs');
 const https = require('https');
 
 export default search => {
-    let tvshows = [
-        /*    { name:"The Big Bang Theory", value:"this", other: "that" },
-         { name:"Colony", value:"this", other: "that" }*/
-    ];
 
     /**
      * Base get to handle call to add :name tv show
@@ -38,22 +34,27 @@ export default search => {
     });
 
     search.use(async(ctx, next) => {
-        await ctx.tvshow.map(show => {
+        let promises = await ctx.tvshow.map((show) => new Promise((resolve, reject) => {
+            console.log('show id:'+show.id);
             if (show.banner) {
                 https.get("https://www.thetvdb.com/banners/" + show.banner, function (response) {
-                    promisePipe(
-                        response.pipe(fs.createWriteStream('images/' + show.banner)),
-                    ).then(function(streams){
-                        console.log("Yay, all streams are now closed/ended/finished!");
-                    }, function(err) {
-                        console.log("This stream failed:", err.source);
-                        console.log("Original error was:", err.originalError);
-                    });
+                    let file = fs.createWriteStream('images/' + show.banner);
+                    response.pipe(file);
+                    response.on('end', resolve);
+                    response.on('error',resolve);
                 });
+            } else {
+                resolve();
             }
+        }));
+        await Promise.all(promises).then(function(){
+            "use strict";
+                console.log('about to send body');
+                ctx.body = (ctx.tvshow) ? ctx.tvshow : "No Show Found";
+        }).catch(()=>{
+            "use strict";
+            console.log('well this sucks');
         });
-        console.log('about to send body');
-        ctx.body = (ctx.tvshow) ? ctx.tvshow : "No Show Found";
     });
 
     return search;
