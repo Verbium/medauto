@@ -17,6 +17,7 @@ No :) but it will. You can current search for tv shows which uses the tvdb api. 
 * Pull this repo
 * Install Yarn (choco is great for this)
 * Run yarn install
+* Ad Node Environment variable of TVDBAPIKEY with your key when running from koa_v2
 * Run npm start on the frontend and koa_v2 folders
 
 ### Known issues ###
