@@ -7,6 +7,7 @@ import TVSearch from '../components/tvsearch';
 import TVShowList from '../components/tvshowlist';
 import {fetchShow} from '../actions';
 
+
 class TVApp extends Component {
     render() {
         return (
@@ -17,18 +18,25 @@ class TVApp extends Component {
         )
     }
 }
-
+/**
+ *
+ * @param state
+ * @returns {{shows: {}, fetching: boolean}}
+ */
 const mapStateToProps = (state) => {
     return ({
         shows: (state.retrieveShows.shows) ? state.retrieveShows.shows : {},
         fetching: state.retrieveShows.isFetching
     });
 };
-
+/**
+ *
+ * @param dispatch
+ * @returns {{onSearchClick: (function())}}
+ */
 const mapDispatchToProps = (dispatch) => {
     return ({
         onSearchClick: () => {
-            console.log('Handle clicked');
             dispatch(fetchShow(document.getElementById('tvsearch').value));
         }
     });
